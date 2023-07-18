@@ -29,9 +29,9 @@ interface ArticleCardFooterProps {
 
 export function SingleCard({
                               image,
-                              category,
+                              genre,
                               title,
-                              footer,
+                              publicationDate,
                               author,
                            }: ArticleCardFooterProps) {
    const {classes, theme} = useStyles();
@@ -42,7 +42,7 @@ export function SingleCard({
             <Image src={image} alt={title} height={180}/>
          </Card.Section>
 
-         <Badge>{category}</Badge>
+         <Badge>{genre}</Badge>
 
          <Text fw={700} className={classes.title} mt="xs">
             {title}
@@ -58,7 +58,7 @@ export function SingleCard({
          <Card.Section className={classes.footer}>
             <Group position="apart">
                <Text fz="xs" c="dimmed">
-                  {footer}
+                  {publicationDate}
                </Text>
                <Group spacing={0}>
                   <ActionIcon>

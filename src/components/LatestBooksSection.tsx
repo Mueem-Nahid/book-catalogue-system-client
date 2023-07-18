@@ -46,7 +46,7 @@ const useStyles = createStyles((theme) => ({
    },
 }));
 
-export function LatestBooksSection() {
+export function LatestBooksSection({books}) {
    const {classes} = useStyles();
 
    return (
@@ -57,27 +57,18 @@ export function LatestBooksSection() {
          </Title>
 
          <SimpleGrid cols={3} spacing="xl" mt={50} breakpoints={[{maxWidth: 'md', cols: 1}]}>
-            <SingleCard
-               image='https://img.freepik.com/premium-photo/book-library-with-old-open-textbook-stack-piles-literature-text-archive-reading-desk_779468-5822.jpg?w=1060'
-               category='Love'
-               title='New Book'
-               footer='Buy asap'
-               author='Me'
-            />
-            <SingleCard
-               image='https://img.freepik.com/premium-photo/book-library-with-old-open-textbook-stack-piles-literature-text-archive-reading-desk_779468-5822.jpg?w=1060'
-               category='Love'
-               title='New Book'
-               footer='Buy asap'
-               author='Me'
-            />
-            <SingleCard
-               image='https://img.freepik.com/premium-photo/book-library-with-old-open-textbook-stack-piles-literature-text-archive-reading-desk_779468-5822.jpg?w=1060'
-               category='Love'
-               title='New Book'
-               footer='Buy asap'
-               author='Me'
-            />
+            {
+               books?.map((book:object)=>(
+                  <SingleCard
+                     key={book._id}
+                     image='https://img.freepik.com/premium-photo/book-library-with-old-open-textbook-stack-piles-literature-text-archive-reading-desk_779468-5822.jpg?w=1060'
+                     genre={book.genre}
+                     publicationDate={book.publicationDate}
+                     title={book.title}
+                     author={book.author}
+                  />
+               ))
+            }
          </SimpleGrid>
       </Container>
    );
