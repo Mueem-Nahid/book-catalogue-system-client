@@ -32,7 +32,7 @@ export function SingleCard({
    return (
       <Card withBorder padding="lg" radius="md" className={classes.card}>
          <Card.Section mb="sm">
-            <Image src={image} alt={title} height={180}/>
+            <Image src={image} alt={title} height={180} fit="fill"/>
          </Card.Section>
 
          <Badge>{genre}</Badge>
@@ -51,7 +51,7 @@ export function SingleCard({
          <Card.Section className={classes.footer}>
             <Group position="apart">
                <Text fz="xs" c="dimmed">
-                  {publicationDate}
+                  Publication date: {publicationDate}
                </Text>
                <Group spacing={0}>
                   <ActionIcon>

@@ -22,7 +22,7 @@ function Books() {
             books?.map((book:IBook)=>(
                <SingleCard
                   key={book._id}
-                  image='https://img.freepik.com/premium-photo/book-library-with-old-open-textbook-stack-piles-literature-text-archive-reading-desk_779468-5822.jpg?w=1060'
+                  image={book.image}
                   genre={book.genre}
                   publicationDate={book.publicationDate}
                   title={book.title}
