@@ -1,7 +1,6 @@
 import {Box, Container} from "@mantine/core";
 import {Navbar} from "./Navbar.tsx";
 import {Outlet} from "react-router-dom";
-import {Footer} from "./Footer.tsx";
 
 
 function MainLayout() {
@@ -11,7 +10,6 @@ function MainLayout() {
          <Box>
             <Outlet/>
          </Box>
-         <Footer/>
       </Container>
    );
 }

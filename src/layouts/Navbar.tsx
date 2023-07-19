@@ -68,8 +68,8 @@ export function Navbar() {
    const {classes, theme} = useStyles();
 
    return (
-      <Box>
-         <Header height={60} px="md">
+      <Box mb='60px'>
+         <Header height={60} px="md" fixed>
             <Group position="apart" sx={{height: '100%'}}>
                <MantineLogo size={30}/>
 

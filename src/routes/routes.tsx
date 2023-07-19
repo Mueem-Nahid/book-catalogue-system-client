@@ -3,6 +3,7 @@ import App from "../App.tsx";
 import HomePage from "../pages/homePage.tsx";
 import LoginPage from "../pages/loginPage.tsx";
 import SignupPage from "../pages/signupPage.tsx";
+import AllBook from "../pages/allBook.tsx";
 
 const routes = createBrowserRouter([
    {
@@ -20,6 +21,10 @@ const routes = createBrowserRouter([
          {
             path: '/signup',
             element: <SignupPage/>,
+         },
+         {
+            path: '/all-books',
+            element: <AllBook/>,
          },
          /* {
             path: '*',

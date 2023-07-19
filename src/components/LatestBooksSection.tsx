@@ -1,5 +1,6 @@
 import {Container, createStyles, rem, SimpleGrid, Title,} from '@mantine/core';
 import {SingleCard} from "./SingleCard.tsx";
+import {IBook} from "../types/globalTypes.ts";
 
 
 const useStyles = createStyles((theme) => ({
@@ -46,19 +47,22 @@ const useStyles = createStyles((theme) => ({
    },
 }));
 
-export function LatestBooksSection({books}) {
+interface LatestBooksSectionProps {
+   books: IBook[];
+}
+
+export function LatestBooksSection({books}:LatestBooksSectionProps) {
    const {classes} = useStyles();
 
    return (
-      <Container size="lg" py="xl">
+      <Container size="lg" py='2.5rem'>
 
          <Title order={2} className={classes.title} ta="center" mt="sm">
             Latest Books
          </Title>
-
          <SimpleGrid cols={3} spacing="xl" mt={50} breakpoints={[{maxWidth: 'md', cols: 1}]}>
             {
-               books?.map((book:object)=>(
+               books?.map((book:IBook)=>(
                   <SingleCard
                      key={book._id}
                      image='https://img.freepik.com/premium-photo/book-library-with-old-open-textbook-stack-piles-literature-text-archive-reading-desk_779468-5822.jpg?w=1060'

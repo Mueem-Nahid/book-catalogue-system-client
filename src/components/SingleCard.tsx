@@ -1,5 +1,6 @@
 import {ActionIcon, Avatar, Badge, Card, createStyles, Group, Image, rem, Text,} from '@mantine/core';
 import {IconBookmark, IconHeart, IconShare} from '@tabler/icons-react';
+import {IBook} from "../types/globalTypes.ts";
 
 const useStyles = createStyles((theme) => ({
    card: {
@@ -19,21 +20,13 @@ const useStyles = createStyles((theme) => ({
    },
 }));
 
-interface ArticleCardFooterProps {
-   image: string;
-   category: string;
-   title: string;
-   footer: string;
-   author: string
-}
-
 export function SingleCard({
                               image,
                               genre,
                               title,
                               publicationDate,
                               author,
-                           }: ArticleCardFooterProps) {
+                           }: IBook) {
    const {classes, theme} = useStyles();
 
    return (
