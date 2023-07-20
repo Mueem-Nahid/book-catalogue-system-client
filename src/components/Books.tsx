@@ -22,6 +22,7 @@ function Books() {
             books?.map((book:IBook)=>(
                <SingleCard
                   key={book._id}
+                  _id={book._id}
                   image={book.image}
                   genre={book.genre}
                   publicationDate={book.publicationDate}

@@ -65,6 +65,7 @@ export function LatestBooksSection({books}:LatestBooksSectionProps) {
                books?.slice(0,9)?.map((book:IBook)=>(
                   <SingleCard
                      key={book._id}
+                     _id={book._id}
                      image={book.image}
                      genre={book.genre}
                      publicationDate={book.publicationDate}

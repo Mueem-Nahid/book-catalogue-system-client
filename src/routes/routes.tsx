@@ -4,6 +4,8 @@ import HomePage from "../pages/homePage.tsx";
 import LoginPage from "../pages/loginPage.tsx";
 import SignupPage from "../pages/signupPage.tsx";
 import AllBook from "../pages/allBook.tsx";
+import BookDetailsPage from "../pages/bookDetailsPage.tsx";
+import {NotFound} from "../pages/404.tsx";
 
 const routes = createBrowserRouter([
    {
@@ -19,6 +21,10 @@ const routes = createBrowserRouter([
             element: <AllBook/>,
          },
          {
+            path: '/book/:id',
+            element: <BookDetailsPage/>,
+         },
+         {
             path: '/login',
             element: <LoginPage/>,
          },
@@ -26,10 +32,10 @@ const routes = createBrowserRouter([
             path: '/signup',
             element: <SignupPage/>,
          },
-         /* {
+          {
             path: '*',
             element: <NotFound/>,
-         },*/
+         },
       ]
    },
 ])

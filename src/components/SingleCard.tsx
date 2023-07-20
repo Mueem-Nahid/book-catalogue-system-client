@@ -1,6 +1,7 @@
 import {ActionIcon, Avatar, Badge, Card, createStyles, Group, Image, rem, Text,} from '@mantine/core';
 import {IconBookmark, IconHeart, IconShare} from '@tabler/icons-react';
 import {IBook} from "../types/globalTypes.ts";
+import {Link} from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
    card: {
@@ -9,6 +10,8 @@ const useStyles = createStyles((theme) => ({
 
    title: {
       fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+      color: theme.colorScheme === 'dark' ? 'white' : 'black',
+      textDecoration: 'none'
    },
 
    footer: {
@@ -21,6 +24,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function SingleCard({
+                              _id,
                               image,
                               genre,
                               title,
@@ -31,11 +35,12 @@ export function SingleCard({
 
    return (
       <Card withBorder padding="lg" radius="md" className={classes.card}>
-         <Card.Section mb="sm">
-            <Image src={image} alt={title} height={180} fit="fill"/>
-         </Card.Section>
-
-         <Badge>{genre}</Badge>
+         <Link to={`/book/${_id}`}>
+            <Card.Section mb="sm">
+               <Image src={image} alt={title} height={180} fit="fill"/>
+            </Card.Section>
+            <Badge>{genre}</Badge>
+         </Link>
 
          <Text fw={700} className={classes.title} mt="xs">
             {title}
