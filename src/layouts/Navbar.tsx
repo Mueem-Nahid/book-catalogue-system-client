@@ -121,17 +121,17 @@ export function Navbar() {
                               </Menu.Target>
 
                               <Menu.Dropdown>
-                                 <Menu.Item>
-                                    <Link to='' className={classes.subLink}>
+                                 <Menu.Item fw='normal'>
+                                    <Link to='/add-book' className={classes.subLink}>
                                        Add book
                                     </Link>
                                  </Menu.Item>
-                                 <Menu.Item>
+                                 <Menu.Item fw='normal'>
                                     <Link to='' className={classes.subLink}>
                                        My wishlist
                                     </Link>
                                  </Menu.Item>
-                                 <Menu.Item>
+                                 <Menu.Item fw='normal'>
                                     <Link to='' onClick={handleLogout} className={classes.subLink}>
                                        Log out
                                     </Link>

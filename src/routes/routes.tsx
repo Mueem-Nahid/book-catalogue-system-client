@@ -6,6 +6,8 @@ import SignupPage from "../pages/signupPage.tsx";
 import AllBook from "../pages/allBook.tsx";
 import BookDetailsPage from "../pages/bookDetailsPage.tsx";
 import {NotFound} from "../pages/404.tsx";
+import AddBookPage from "../pages/addBookPage.tsx";
+import PrivateRoute from "./PrivateRoute.tsx";
 
 const routes = createBrowserRouter([
    {
@@ -25,6 +27,13 @@ const routes = createBrowserRouter([
             element: <BookDetailsPage/>,
          },
          {
+            path: '/add-book',
+            element:
+               <PrivateRoute>
+                  <AddBookPage/>
+               </PrivateRoute>,
+         },
+         {
             path: '/login',
             element: <LoginPage/>,
          },
@@ -32,7 +41,7 @@ const routes = createBrowserRouter([
             path: '/signup',
             element: <SignupPage/>,
          },
-          {
+         {
             path: '*',
             element: <NotFound/>,
          },
