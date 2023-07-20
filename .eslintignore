@@ -1,1 +1,5 @@
 src/components/Login.tsx
+src/pages/loginPage.tsx
+
+src/components/Signup.tsx
+src/pages/signupPage.tsx

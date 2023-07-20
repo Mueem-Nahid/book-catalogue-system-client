@@ -2,7 +2,7 @@ import {Anchor, Button, Container, Notification, Paper, PasswordInput, Text, Tex
 import {useForm} from "@mantine/form";
 import {useLoginUserMutation} from "../redux/features/user/userApi.ts";
 import {useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../redux/hook.ts";
 import {setCredentials} from "../redux/features/user/userSlice.ts";
 import {IUser} from "../types/globalTypes.ts";
@@ -54,9 +54,11 @@ export function Login() {
          </Title>
          <Text color="dimmed" size="sm" align="center" mt={5}>
             Do not have an account yet?{' '}
-            <Anchor size="sm" component="button">
-               Create account
-            </Anchor>
+            <Link to='/signup'>
+               <Anchor size="sm" component="button">
+                  Create account
+               </Anchor>
+            </Link>
          </Text>
 
          <Paper withBorder shadow="md" p={30} mt={30} radius="md">

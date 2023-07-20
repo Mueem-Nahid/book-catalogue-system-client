@@ -9,9 +9,17 @@ const userApi = api.injectEndpoints({
             body: payload
          })
       }),
+      signupUser: builder.mutation({
+         query: (payload) => ({
+            url: '/auth/signup',
+            method: 'POST',
+            body: payload
+         })
+      }),
    })
 });
 
 export const {
-   useLoginUserMutation
+   useLoginUserMutation,
+   useSignupUserMutation
 } = userApi;
