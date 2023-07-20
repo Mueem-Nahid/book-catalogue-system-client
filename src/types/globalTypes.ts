@@ -7,3 +7,14 @@ export interface IBook {
    image: string;
    reviews?: object
 }
+
+
+export interface IUserInfo {
+   email: string,
+   name: string
+}
+
+export interface IUser {
+   userInfo: IUserInfo | null;
+   accessToken: string | null
+}

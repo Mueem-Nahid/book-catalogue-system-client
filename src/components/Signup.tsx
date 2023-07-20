@@ -4,6 +4,7 @@ export function Signup() {
    return (
       <Container size={420} my={40}>
          <Title
+            pt="35px"
             align="center"
             sx={(theme) => ({fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900})}
          >

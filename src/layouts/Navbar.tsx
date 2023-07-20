@@ -2,6 +2,8 @@ import {Box, Burger, Button, createStyles, Divider, Drawer, Group, Header, rem, 
 import {MantineLogo} from '@mantine/ds';
 import {useDisclosure} from '@mantine/hooks';
 import {Link} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../redux/hook.ts";
+import {logOutUser} from "../redux/features/user/userSlice.ts";
 
 const useStyles = createStyles((theme) => ({
    link: {
@@ -12,7 +14,7 @@ const useStyles = createStyles((theme) => ({
       paddingRight: theme.spacing.md,
       textDecoration: 'none',
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-      fontWeight: 500,
+      fontWeight: 700,
       fontSize: theme.fontSizes.sm,
 
       [theme.fn.smallerThan('sm')]: {
@@ -64,8 +66,14 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function Navbar() {
+   const dispatch = useAppDispatch()
+   const {userInfo} = useAppSelector(state => state.user);
    const [drawerOpened, {toggle: toggleDrawer, close: closeDrawer}] = useDisclosure(false);
    const {classes, theme} = useStyles();
+
+   const handleLogout = () => {
+      dispatch(logOutUser())
+   }
 
    return (
       <Box mb='60px'>
@@ -78,17 +86,24 @@ export function Navbar() {
                      Home
                   </Link>
                   <Link to='/all-books' className={classes.link}>
-                     All books
+                     All Books
                   </Link>
                </Group>
 
                <Group className={classes.hiddenMobile}>
-                  <Link to='/login'>
-                     <Button variant="default">Log in</Button>
-                  </Link>
-                  <Link to='/signup'>
-                     <Button>Sign up</Button>
-                  </Link>
+                  {
+                     userInfo?.name ?
+                        <Button variant="default" onClick={handleLogout}>Log out</Button>
+                        :
+                        <>
+                           <Link to='/login'>
+                              <Button variant="default">Log in</Button>
+                           </Link>
+                           <Link to='/signup'>
+                              <Button>Sign up</Button>
+                           </Link>
+                        </>
+                  }
                </Group>
 
                <Burger opened={drawerOpened} onClick={toggleDrawer} className={classes.hiddenDesktop}/>
@@ -109,14 +124,24 @@ export function Navbar() {
                <Link to='/' className={classes.link}>
                   Home
                </Link>
+               <Link to='/all-books' className={classes.link}>
+                  All Books
+               </Link>
                <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}/>
                <Group position="center" grow pb="xl" px="md">
-                  <Link to='/login'>
-                     <Button variant="default">Log in</Button>
-                  </Link>
-                  <Link to='/signup'>
-                     <Button>Sign up</Button>
-                  </Link>
+                  {
+                     userInfo?.name ?
+                        <Button variant="default" onClick={handleLogout}>Log out</Button>
+                        :
+                        <>
+                           <Link to='/login'>
+                              <Button variant="default">Log in</Button>
+                           </Link>
+                           <Link to='/signup'>
+                              <Button>Sign up</Button>
+                           </Link>
+                        </>
+                  }
                </Group>
             </ScrollArea>
          </Drawer>
