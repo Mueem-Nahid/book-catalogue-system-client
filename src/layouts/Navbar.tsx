@@ -1,9 +1,23 @@
-import {Box, Burger, Button, createStyles, Divider, Drawer, Group, Header, rem, ScrollArea,} from '@mantine/core';
+import {
+   Box,
+   Burger,
+   Button,
+   Center,
+   createStyles,
+   Divider,
+   Drawer,
+   Group,
+   Header,
+   Menu,
+   rem,
+   ScrollArea,
+} from '@mantine/core';
 import {MantineLogo} from '@mantine/ds';
 import {useDisclosure} from '@mantine/hooks';
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../redux/hook.ts";
 import {logOutUser} from "../redux/features/user/userSlice.ts";
+import {IconChevronDown} from "@tabler/icons-react";
 
 const useStyles = createStyles((theme) => ({
    link: {
@@ -33,7 +47,7 @@ const useStyles = createStyles((theme) => ({
       width: '100%',
       padding: `${theme.spacing.xs} ${theme.spacing.md}`,
       borderRadius: theme.radius.md,
-
+      textDecoration: 'none',
       ...theme.fn.hover({
          backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
       }),
@@ -93,7 +107,39 @@ export function Navbar() {
                <Group className={classes.hiddenMobile}>
                   {
                      userInfo?.name ?
-                        <Button variant="default" onClick={handleLogout}>Log out</Button>
+                        <>
+                           <Menu trigger="hover" transitionProps={{exitDuration: 0}} withinPortal>
+                              <Menu.Target>
+                                 <a className={classes.link}>
+                                    <Center inline>
+                                       <Box component="span" mr={5}>
+                                          {userInfo.name}
+                                       </Box>
+                                       <IconChevronDown size={16} color={theme.fn.primaryColor()}/>
+                                    </Center>
+                                 </a>
+                              </Menu.Target>
+
+                              <Menu.Dropdown>
+                                 <Menu.Item>
+                                    <Link to='' className={classes.subLink}>
+                                       Add book
+                                    </Link>
+                                 </Menu.Item>
+                                 <Menu.Item>
+                                    <Link to='' className={classes.subLink}>
+                                       My wishlist
+                                    </Link>
+                                 </Menu.Item>
+                                 <Menu.Item>
+                                    <Link to='' onClick={handleLogout} className={classes.subLink}>
+                                       Log out
+                                    </Link>
+                                 </Menu.Item>
+                              </Menu.Dropdown>
+                           </Menu>
+                        </>
+                        // <Button variant="default" onClick={handleLogout}>Log out</Button>
                         :
                         <>
                            <Link to='/login'>
