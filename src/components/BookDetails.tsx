@@ -1,5 +1,6 @@
 import {createStyles, Card, Image, Avatar, Text, Group, Container} from '@mantine/core';
-import {IBook} from "../types/globalTypes.ts";
+import {IReview} from "../types/globalTypes.ts";
+import Reviews from "./Reviews.tsx";
 
 const useStyles = createStyles((theme) => ({
    card: {
@@ -18,14 +19,25 @@ const useStyles = createStyles((theme) => ({
    },
 }));
 
+type ReviewsProp = IReview[] | undefined;
+
 function BookDetails({
                         image,
                         genre,
                         title,
                         publicationDate,
                         author,
-                     }: IBook) {
+                        reviews,
+                     }: {
+   image: string;
+   genre: string;
+   title: string;
+   publicationDate: string;
+   author: string;
+   reviews: ReviewsProp; // Use the updated type here
+}) {
    const {classes} = useStyles();
+
    return (
       <Container py='lg'>
          <Card withBorder radius="md" p={0} className={classes.card}>
@@ -53,6 +65,9 @@ function BookDetails({
                </div>
             </Group>
          </Card>
+         <Container size='sm'>
+            <Reviews reviews={reviews}/>
+         </Container>
       </Container>
    );
 }

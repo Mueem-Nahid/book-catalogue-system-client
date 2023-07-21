@@ -6,7 +6,7 @@ import {Center} from "@mantine/core";
 
 function BookDetailsPage() {
    const {id} = useParams();
-   const {data} = useSingleBookQuery(id)
+   const {data} = useSingleBookQuery(id!)
 
    return (
       <>
@@ -18,6 +18,7 @@ function BookDetailsPage() {
                   publicationDate={data?.data.publicationDate}
                   title={data?.data.title}
                   author={data?.data.author}
+                  reviews={data?.data.reviews}
                />
                :
                <Center>Not found</Center>
