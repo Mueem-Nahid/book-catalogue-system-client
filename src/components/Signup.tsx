@@ -11,7 +11,7 @@ interface SignupFormInputs {
 }
 
 export function Signup() {
-   const [successMessage, setSucessMessage] = useState('')
+   const [successMessage, setSuccessMessage] = useState('')
    const [signupUser, {isError, error, isSuccess}] = useSignupUserMutation()
 
    const form = useForm({
@@ -38,13 +38,14 @@ export function Signup() {
 
    const handleSubmit = async (values: SignupFormInputs) => {
       try {
+         // @ts-ignore
          const {data} = await signupUser(values);
-         setSucessMessage(data?.message)
+         setSuccessMessage(data?.message)
       } catch (error) {
          console.log(error)
       }
    }
-
+   
    return (
       <Container size={420} my={40}>
          <Title
@@ -77,6 +78,7 @@ export function Signup() {
             {
                isError &&
                 <Notification color="red" mt="10px" withCloseButton={false}>
+                    {/* @ts-ignore*/}
                     <Text color="red">{error?.data.message}</Text>
                 </Notification>
             }
