@@ -10,6 +10,7 @@ export interface IBook {
 
 
 export interface IUserInfo {
+   id: string,
    email: string,
    name: string
 }
