@@ -4,7 +4,7 @@ import {
    Button,
    createStyles,
    Divider,
-   Group,
+   Group, Notification,
    Paper,
    rem,
    Text,
@@ -14,6 +14,7 @@ import {
 import {reviewDateFormat} from "../utils/utils.ts";
 import {IReview} from "../types/globalTypes.ts";
 import {useForm} from "@mantine/form";
+import {usePostCommentMutation} from "../redux/features/books/bookApi.ts";
 
 const useStyles = createStyles((theme) => ({
    comment: {
@@ -35,7 +36,8 @@ const useStyles = createStyles((theme) => ({
 
 type ReviewsProp = IReview[] | undefined;
 
-function Reviews({reviews}: { reviews: ReviewsProp }) {
+function Reviews({reviews, id}: { reviews: ReviewsProp, id: string }) {
+   const [postComment, {isError, error}] = usePostCommentMutation();
    const {classes} = useStyles();
 
    const form = useForm({
@@ -46,8 +48,14 @@ function Reviews({reviews}: { reviews: ReviewsProp }) {
       },
    });
 
-   const handleSubmit = () => {
-
+   const handleSubmit = async (review: { review: string }) => {
+      try {
+         const bookId: string = id;
+         postComment({bookId, review});
+         form.reset();
+      } catch (e) {
+         // nothing
+      }
    }
 
    return (
@@ -62,6 +70,14 @@ function Reviews({reviews}: { reviews: ReviewsProp }) {
                   minRows={2}
                   required
                />
+               {
+                  isError &&
+                   <Notification color="red" mt="10px" withCloseButton={false}>
+                      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                      {/*@ts-ignore*/}
+                       <Text color="red">{error?.data.message}</Text>
+                   </Notification>
+               }
                <Button type="submit" fullWidth mt="xl">
                   Post
                </Button>
@@ -69,23 +85,24 @@ function Reviews({reviews}: { reviews: ReviewsProp }) {
          </Paper>
          {
             reviews && reviews.length ?
-            reviews.map((review: IReview) => (
-               <Paper key={review._id} radius="md" className={classes.comment}>
-                  <Group>
-                     <Avatar alt={review.reviewedBy.name} radius="xl">{review.reviewedBy.name.substring(0, 1)}</Avatar>
-                     <div>
-                        <Text fz="sm">{review.reviewedBy.name}</Text>
-                        <Text fz="xs" c="dimmed">
-                           {reviewDateFormat(review.createdAt)}
-                        </Text>
-                     </div>
-                  </Group>
-                  <TypographyStylesProvider className={classes.body}>
-                     <div className={classes.content} dangerouslySetInnerHTML={{__html: review.review}}/>
-                  </TypographyStylesProvider>
-                  <Divider my="sm"/>
-               </Paper>
-            )) : ''
+               reviews.map((review: IReview) => (
+                  <Paper key={review._id} radius="md" className={classes.comment}>
+                     <Group>
+                        <Avatar alt={review.reviewedBy.name}
+                                radius="xl">{review.reviewedBy.name.substring(0, 1)}</Avatar>
+                        <div>
+                           <Text fz="sm">{review.reviewedBy.name}</Text>
+                           <Text fz="xs" c="dimmed">
+                              {reviewDateFormat(review.createdAt)}
+                           </Text>
+                        </div>
+                     </Group>
+                     <TypographyStylesProvider className={classes.body}>
+                        <div className={classes.content} dangerouslySetInnerHTML={{__html: review.review}}/>
+                     </TypographyStylesProvider>
+                     <Divider my="sm"/>
+                  </Paper>
+               )) : ''
          }
       </Box>
    );

@@ -87,6 +87,8 @@ function AddBook() {
          image: values.image,
       };
       try {
+         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         // @ts-ignore
          const {data} = await addBook(payload)
          form.reset();
          setSuccessMessage(data?.message)
@@ -124,6 +126,8 @@ function AddBook() {
             {
                isError &&
                 <Notification color="red" mt="15px" withCloseButton={false}>
+                   {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                    {/* @ts-ignore*/}
                     <Text color="red">{error?.data.message}</Text>
                 </Notification>
             }

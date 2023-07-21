@@ -31,6 +31,7 @@ export function Login() {
    const handleSubmit = async (values: LoginFormInputs) => {
       try {
          const response = await loginUser(values);
+         // @ts-ignore
          const user: IUser = response?.data.data;
          dispatch(setCredentials(user));
          localStorage.setItem('user', JSON.stringify(user));
@@ -74,6 +75,7 @@ export function Login() {
             {
                isError &&
                 <Notification color="red" mt="10px" withCloseButton={false}>
+                   {/*@ts-ignore*/}
                     <Text color="red">{error?.data.message}</Text>
                 </Notification>
             }

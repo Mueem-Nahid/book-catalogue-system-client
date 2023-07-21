@@ -22,6 +22,7 @@ const useStyles = createStyles((theme) => ({
 type ReviewsProp = IReview[] | undefined;
 
 function BookDetails({
+                        id,
                         image,
                         genre,
                         title,
@@ -29,6 +30,7 @@ function BookDetails({
                         author,
                         reviews,
                      }: {
+   id:string;
    image: string;
    genre: string;
    title: string;
@@ -66,7 +68,7 @@ function BookDetails({
             </Group>
          </Card>
          <Container size='sm'>
-            <Reviews reviews={reviews}/>
+            <Reviews reviews={reviews} id={id}/>
          </Container>
       </Container>
    );

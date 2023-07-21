@@ -19,6 +19,7 @@ function BookDetailsPage() {
                   title={data?.data.title}
                   author={data?.data.author}
                   reviews={data?.data.reviews}
+                  id={id!}
                />
                :
                <Center>Not found</Center>
