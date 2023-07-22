@@ -1,17 +1,7 @@
-import {
-   ActionIcon,
-   Badge,
-   Code,
-   createStyles,
-   Group,
-   Navbar,
-   rem,
-   Text,
-   TextInput,
-   Tooltip,
-   UnstyledButton,
-} from '@mantine/core';
-import {IconBulb, IconCheckbox, IconPlus, IconSearch, IconUser,} from '@tabler/icons-react';
+import {Code, createStyles, Group, Navbar, rem, Select, Text, TextInput,} from '@mantine/core';
+import {IconSearch,} from '@tabler/icons-react';
+import {YearPicker} from "@mantine/dates";
+import {IBookGenre} from "../types/globalTypes.ts";
 
 const useStyles = createStyles((theme) => ({
    navbar: {
@@ -108,52 +98,26 @@ const useStyles = createStyles((theme) => ({
    },
 }));
 
-const links = [
-   {icon: IconBulb, label: 'Activity', notifications: 3},
-   {icon: IconCheckbox, label: 'Tasks', notifications: 4},
-   {icon: IconUser, label: 'Contacts'},
-];
-
-const collections = [
-   {emoji: '👍', label: 'Sales'},
-   {emoji: '🚚', label: 'Deliveries'},
-   {emoji: '💸', label: 'Discounts'},
-   {emoji: '💰', label: 'Profits'},
-   {emoji: '✨', label: 'Reports'},
-   {emoji: '🛒', label: 'Orders'},
-   {emoji: '📅', label: 'Events'},
-   {emoji: '🙈', label: 'Debts'},
-   {emoji: '💁‍♀️', label: 'Customers'},
+const bookGenres: IBookGenre[] = [
+   'Fiction',
+   'Non-Fiction',
+   'Young Adult (YA)',
+   'Children\'s',
+   'Poetry',
+   'Classic Literature',
+   'Graphic Novels/Comics',
+   'Mystery/Thriller',
+   'Science and Technology',
+   'Biography',
+   'Romance',
+   'Self-Help/Motivational',
+   'Fantasy',
+   'Science Fiction',
+   'Horror',
 ];
 
 export function SearchLayout() {
    const {classes} = useStyles();
-
-   const mainLinks = links.map((link) => (
-      <UnstyledButton key={link.label} className={classes.mainLink}>
-         <div className={classes.mainLinkInner}>
-            <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5}/>
-            <span>{link.label}</span>
-         </div>
-         {link.notifications && (
-            <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
-               {link.notifications}
-            </Badge>
-         )}
-      </UnstyledButton>
-   ));
-
-   const collectionLinks = collections.map((collection) => (
-      <a
-         href="/"
-         onClick={(event) => event.preventDefault()}
-         key={collection.label}
-         className={classes.collectionLink}
-      >
-         <span style={{marginRight: rem(9), fontSize: rem(16)}}>{collection.emoji}</span>{' '}
-         {collection.label}
-      </a>
-   ));
 
    return (
       <Navbar height={700} width={{sm: 300}} p="md" className={classes.navbar}>
@@ -162,28 +126,26 @@ export function SearchLayout() {
             size="xs"
             icon={<IconSearch size="0.8rem" stroke={1.5}/>}
             rightSectionWidth={70}
-            rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
+            rightSection={<Code className={classes.searchCode}>Enter</Code>}
             styles={{rightSection: {pointerEvents: 'none'}}}
             mb="sm"
          />
+         {/*<Button compact hidden={true}>Search</Button>*/}
 
-         <Navbar.Section className={classes.section}>
-            <div className={classes.mainLinks}>{mainLinks}</div>
-         </Navbar.Section>
+         <Text mt={5} size="xs" weight={500} color="dimmed">
+            Filter books by genre
+         </Text>
+         <Select size="xs" mt={5} mb="sm" data={bookGenres} clearable/>
 
-         <Navbar.Section className={classes.section}>
-            <Group className={classes.collectionsHeader} position="apart">
-               <Text size="xs" weight={500} color="dimmed">
-                  Collections
-               </Text>
-               <Tooltip label="Create collection" withArrow position="right">
-                  <ActionIcon variant="default" size={18}>
-                     <IconPlus size="0.8rem" stroke={1.5}/>
-                  </ActionIcon>
-               </Tooltip>
-            </Group>
-            <div className={classes.collections}>{collectionLinks}</div>
-         </Navbar.Section>
+         <Text mt={5} size="xs" weight={500} color="dimmed">
+            Filter books by year
+         </Text>
+         <Group mt={5} position="center">
+            <YearPicker
+               minDate={new Date(1920, 1)}
+               maxDate={new Date(2023, 1)}
+            />
+         </Group>
       </Navbar>
    );
 }
