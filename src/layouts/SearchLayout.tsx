@@ -1,7 +1,10 @@
-import {Code, createStyles, Group, Navbar, rem, Select, Text, TextInput,} from '@mantine/core';
+import {Button, createStyles, Group, Navbar, rem, Select, Text, TextInput,} from '@mantine/core';
 import {IconSearch,} from '@tabler/icons-react';
 import {YearPicker} from "@mantine/dates";
-import {IBookGenre} from "../types/globalTypes.ts";
+import {IBook, IBookGenre} from "../types/globalTypes.ts";
+import {useForm} from "@mantine/form";
+import {useGetBooksQuery} from "../redux/features/books/bookApi.ts";
+import {useState} from "react";
 
 const useStyles = createStyles((theme) => ({
    navbar: {
@@ -116,21 +119,69 @@ const bookGenres: IBookGenre[] = [
    'Horror',
 ];
 
-export function SearchLayout() {
+interface BooksProps {
+   setBooks: (books: IBook[] | undefined) => void;
+}
+
+export function SearchLayout({setBooks}:BooksProps) {
    const {classes} = useStyles();
+   const [searchFields, setSearchFields] = useState()
+
+   const form = useForm({
+      initialValues: {
+         searchTerm: ''
+      },
+      validate: {
+         searchTerm: (value) => {
+            if (!value.trim()) {
+               setSearchFields('')
+               return 'Enter search term';
+            }
+            return null;
+         },
+      },
+   });
+
+   const {data, isLoading, error} = useGetBooksQuery(
+      {
+         searchTerm: searchFields
+      },
+      {
+         refetchOnMountOrArgChange: true
+      })
+
+   const handleSearch = (values) => {
+      if (values?.searchTerm)
+         setSearchFields(values.searchTerm)
+   }
+
+   setBooks(data?.data)
 
    return (
       <Navbar height={700} width={{sm: 300}} p="md" className={classes.navbar}>
-         <TextInput
-            placeholder="Search"
-            size="xs"
-            icon={<IconSearch size="0.8rem" stroke={1.5}/>}
-            rightSectionWidth={70}
-            rightSection={<Code className={classes.searchCode}>Enter</Code>}
-            styles={{rightSection: {pointerEvents: 'none'}}}
-            mb="sm"
-         />
-         {/*<Button compact hidden={true}>Search</Button>*/}
+         <form onSubmit={form.onSubmit(handleSearch)}>
+            <TextInput
+               {...form.getInputProps('searchTerm')}
+               placeholder="Search"
+               size="xs"
+               icon={<IconSearch size="0.8rem" stroke={1.5}/>}
+               rightSectionWidth={70}
+               rightSection={
+                  <Button
+                     compact
+                     my={15}
+                     size="xs"
+                     variant="subtle"
+                     type="submit"
+                     style={{pointerEvents: 'all'}}
+                  >
+                     Search
+                  </Button>
+               }
+               styles={{rightSection: {pointerEvents: 'none'}}}
+               mb="sm"
+            />
+         </form>
 
          <Text mt={5} size="xs" weight={500} color="dimmed">
             Filter books by genre

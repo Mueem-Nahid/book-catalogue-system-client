@@ -1,9 +1,30 @@
 import {api} from "../../api/apiSlice.ts";
 
+interface IGetAllBookParams {
+   searchTerm?: string;
+   publishedAt?: string;
+   genre?: string;
+}
+
 const bookApi = api.injectEndpoints({
    endpoints: (builder) => ({
       getBooks: builder.query({
-         query: () => '/books',
+         query: (params: IGetAllBookParams | null) => {
+            console.log(params,"<<<<<<<<<<<")
+            const queryParams = new URLSearchParams();
+
+            if (params?.searchTerm) {
+               queryParams.append('searchTerm', params.searchTerm);
+            }
+            if (params?.publishedAt) {
+               queryParams.append('publishedAt', params.publishedAt);
+            }
+            if (params?.genre) {
+               queryParams.append('genre', params.genre);
+            }
+
+            return `/books?${queryParams.toString()}`;
+         },
       }),
       singleBook: builder.query({
          query: (id: string) => `/books/${id}`,
