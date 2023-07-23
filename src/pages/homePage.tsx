@@ -7,7 +7,7 @@ import {IBook} from "../types/globalTypes.ts";
 
 
 function HomePage() {
-   const data = useGetBooksQuery(undefined)
+   const data = useGetBooksQuery(null)
    const books:IBook[] = data?.data?.data
    return (
       <Container px='0' fluid>
