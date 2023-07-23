@@ -1,10 +1,9 @@
 import {Button, createStyles, Group, Navbar, rem, Select, Text, TextInput,} from '@mantine/core';
 import {IconSearch,} from '@tabler/icons-react';
 import {YearPicker} from "@mantine/dates";
-import {IBook, IBookGenre} from "../types/globalTypes.ts";
+import {IBookGenre} from "../types/globalTypes.ts";
 import {useForm} from "@mantine/form";
-import {useGetBooksQuery} from "../redux/features/books/bookApi.ts";
-import {useState} from "react";
+import {Dispatch, SetStateAction} from "react";
 
 const useStyles = createStyles((theme) => ({
    navbar: {
@@ -119,17 +118,13 @@ const bookGenres: IBookGenre[] = [
    'Horror',
 ];
 
-interface BooksProps {
-   setBooks: (books: IBook[] | undefined) => void;
+interface SearchLayoutProps {
+   setSearchFields: Dispatch<SetStateAction<string>>;
+   setFilteringFields: Dispatch<SetStateAction<{ genre: string; publicationDate: string }>>;
 }
 
-export function SearchLayout({setBooks}:BooksProps) {
+export function SearchLayout({setSearchFields, setFilteringFields}: SearchLayoutProps) {
    const {classes} = useStyles();
-   const [searchFields, setSearchFields] = useState()
-   const [filteringFields, setFilteringFields] = useState({
-      genre: '',
-      publicationDate: ''
-   })
 
    const form = useForm({
       initialValues: {
@@ -146,37 +141,25 @@ export function SearchLayout({setBooks}:BooksProps) {
       },
    });
 
-   const {data, isLoading, error} = useGetBooksQuery(
-      {
-         searchTerm: searchFields,
-         genre: filteringFields.genre,
-         publicationDate: filteringFields.publicationDate
-      },
-      {
-         refetchOnMountOrArgChange: true
-      })
-
-   const handleSearch = (values) => {
+   const handleSearch = (values: { searchTerm: string }) => {
       if (values?.searchTerm)
          setSearchFields(values.searchTerm)
    }
 
-   const handleFilering = (name, value) => {
-      if(name === 'publicationDate' && value) {
+   const handleFilering = (name: string, value: string | Date) => {
+      if (name === 'publicationDate' && value) {
          setFilteringFields((prevFields) => ({
             ...prevFields,
-            [name]: value.getFullYear()
+            [name]: (value as Date).getFullYear().toString(),
          }));
       } else {
-         setSearchFields()
+         setSearchFields('');
          setFilteringFields((prevFields) => ({
             ...prevFields,
             [name]: value
          }));
       }
    }
-
-   setBooks(data?.data)
 
    return (
       <Navbar height={700} width={{sm: 300}} p="md" className={classes.navbar}>
@@ -207,8 +190,8 @@ export function SearchLayout({setBooks}:BooksProps) {
          <Text mt={5} size="xs" weight={500} color="dimmed">
             Filter books by genre
          </Text>
-         <Select size="xs" mt={5} mb="sm" value={filteringFields.genre}
-                 onChange={(value) => handleFilering("genre", value)} data={bookGenres} clearable/>
+         <Select size="xs" mt={5} mb="sm"
+                 onChange={(value: string) => handleFilering("genre", value)} data={bookGenres} clearable/>
 
          <Text mt={5} size="xs" weight={500} color="dimmed">
             Filter books by year
@@ -216,8 +199,7 @@ export function SearchLayout({setBooks}:BooksProps) {
          <Group mt={5} position="center">
             <YearPicker
                allowDeselect
-               // value={filteringFields.publicationDate}
-               onChange={(value) => handleFilering("publicationDate", value)}
+               onChange={(value: Date) => handleFilering("publicationDate", value)}
                minDate={new Date(1920, 1)}
                maxDate={new Date(2023, 1)}
             />

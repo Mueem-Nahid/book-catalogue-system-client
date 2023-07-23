@@ -10,7 +10,7 @@ const bookApi = api.injectEndpoints({
    endpoints: (builder) => ({
       getBooks: builder.query({
          query: (params: IGetAllBookParams | null) => {
-            console.log(params,"<<<<<<<<<<<")
+            console.log(params, "<<<<<<<<<<<")
             const queryParams = new URLSearchParams();
 
             if (params?.searchTerm) {
@@ -18,7 +18,7 @@ const bookApi = api.injectEndpoints({
             }
             if (params?.publicationDate) {
                queryParams.delete('publicationDate');
-               queryParams.append('publishedAt', params.publicationDate);
+               queryParams.append('publicationDate', params.publicationDate);
             }
             if (params?.genre) {
                queryParams.delete('genre');

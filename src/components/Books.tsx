@@ -1,28 +1,14 @@
 import {Center, Loader, SimpleGrid} from "@mantine/core";
 import {SingleCard} from "./SingleCard.tsx";
-import {useGetBooksQuery} from "../redux/features/books/bookApi.ts";
 import {IBook} from "../types/globalTypes.ts";
-import {useEffect} from "react";
 
 interface BooksProps {
    books: IBook[] | undefined;
-   setBooks: (books: IBook[] | undefined) => void;
+   isLoading: boolean;
+   error: any; // Replace `any` with the appropriate type for error, if possible
 }
 
-function Books({books, setBooks}: BooksProps) {
-   const {data, isLoading, error} = useGetBooksQuery(
-      null,
-      {
-         refetchOnMountOrArgChange: true
-      })
-
-   // const books: IBook[] | undefined = data?.data
-
-
-   useEffect(() => {
-      setBooks(data?.data)
-   }, [data?.data])
-
+function Books({books, isLoading, error}: BooksProps) {
 
    if (error) {
       return <div>Failed to load data</div>;
@@ -50,6 +36,10 @@ function Books({books, setBooks}: BooksProps) {
              <Center>
                  <Loader/>
              </Center>
+         }
+         {
+            !isLoading && !books?.length &&
+             <Center>No data found</Center>
          }
       </>
    );
