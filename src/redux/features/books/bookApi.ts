@@ -2,7 +2,7 @@ import {api} from "../../api/apiSlice.ts";
 
 interface IGetAllBookParams {
    searchTerm?: string;
-   publishedAt?: string;
+   publicationDate?: string;
    genre?: string;
 }
 
@@ -16,10 +16,12 @@ const bookApi = api.injectEndpoints({
             if (params?.searchTerm) {
                queryParams.append('searchTerm', params.searchTerm);
             }
-            if (params?.publishedAt) {
-               queryParams.append('publishedAt', params.publishedAt);
+            if (params?.publicationDate) {
+               queryParams.delete('publicationDate');
+               queryParams.append('publishedAt', params.publicationDate);
             }
             if (params?.genre) {
+               queryParams.delete('genre');
                queryParams.append('genre', params.genre);
             }
 

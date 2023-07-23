@@ -126,10 +126,14 @@ interface BooksProps {
 export function SearchLayout({setBooks}:BooksProps) {
    const {classes} = useStyles();
    const [searchFields, setSearchFields] = useState()
+   const [filteringFields, setFilteringFields] = useState({
+      genre: '',
+      publicationDate: ''
+   })
 
    const form = useForm({
       initialValues: {
-         searchTerm: ''
+         searchTerm: '',
       },
       validate: {
          searchTerm: (value) => {
@@ -144,7 +148,9 @@ export function SearchLayout({setBooks}:BooksProps) {
 
    const {data, isLoading, error} = useGetBooksQuery(
       {
-         searchTerm: searchFields
+         searchTerm: searchFields,
+         genre: filteringFields.genre,
+         publicationDate: filteringFields.publicationDate
       },
       {
          refetchOnMountOrArgChange: true
@@ -153,6 +159,21 @@ export function SearchLayout({setBooks}:BooksProps) {
    const handleSearch = (values) => {
       if (values?.searchTerm)
          setSearchFields(values.searchTerm)
+   }
+
+   const handleFilering = (name, value) => {
+      if(name === 'publicationDate' && value) {
+         setFilteringFields((prevFields) => ({
+            ...prevFields,
+            [name]: value.getFullYear()
+         }));
+      } else {
+         setSearchFields()
+         setFilteringFields((prevFields) => ({
+            ...prevFields,
+            [name]: value
+         }));
+      }
    }
 
    setBooks(data?.data)
@@ -186,13 +207,17 @@ export function SearchLayout({setBooks}:BooksProps) {
          <Text mt={5} size="xs" weight={500} color="dimmed">
             Filter books by genre
          </Text>
-         <Select size="xs" mt={5} mb="sm" data={bookGenres} clearable/>
+         <Select size="xs" mt={5} mb="sm" value={filteringFields.genre}
+                 onChange={(value) => handleFilering("genre", value)} data={bookGenres} clearable/>
 
          <Text mt={5} size="xs" weight={500} color="dimmed">
             Filter books by year
          </Text>
          <Group mt={5} position="center">
             <YearPicker
+               allowDeselect
+               // value={filteringFields.publicationDate}
+               onChange={(value) => handleFilering("publicationDate", value)}
                minDate={new Date(1920, 1)}
                maxDate={new Date(2023, 1)}
             />
