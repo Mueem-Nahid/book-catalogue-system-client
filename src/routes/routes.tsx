@@ -8,6 +8,7 @@ import BookDetailsPage from "../pages/bookDetailsPage.tsx";
 import {NotFound} from "../pages/404.tsx";
 import AddBookPage from "../pages/addBookPage.tsx";
 import PrivateRoute from "./PrivateRoute.tsx";
+import EditBookPage from "../pages/editBookPage.tsx";
 
 const routes = createBrowserRouter([
    {
@@ -31,6 +32,13 @@ const routes = createBrowserRouter([
             element:
                <PrivateRoute>
                   <AddBookPage/>
+               </PrivateRoute>,
+         },
+         {
+            path: '/edit-book/:id',
+            element:
+               <PrivateRoute>
+                  <EditBookPage/>
                </PrivateRoute>,
          },
          {

@@ -10,7 +10,6 @@ const bookApi = api.injectEndpoints({
    endpoints: (builder) => ({
       getBooks: builder.query({
          query: (params: IGetAllBookParams | null) => {
-            console.log(params, "<<<<<<<<<<<")
             const queryParams = new URLSearchParams();
 
             if (params?.searchTerm) {
@@ -39,6 +38,13 @@ const bookApi = api.injectEndpoints({
             body: payload
          }),
       }),
+      updateBook: builder.mutation({
+         query: ({id, updatedData}) => ({
+            url: `/books/${id}`,
+            method: 'PATCH',
+            body: updatedData
+         }),
+      }),
       postComment: builder.mutation({
          query: ({bookId, review}) => ({
             url: `/books/${bookId}/reviews`,
@@ -54,5 +60,6 @@ export const {
    useGetBooksQuery,
    useSingleBookQuery,
    useAddBookMutation,
-   usePostCommentMutation
+   usePostCommentMutation,
+   useUpdateBookMutation
 } = bookApi;

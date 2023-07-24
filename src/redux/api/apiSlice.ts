@@ -8,7 +8,6 @@ export const api = createApi({
          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
          // @ts-ignore
          const {user} = getState()
-         console.log("accessToken ", user?.accessToken)
          headers.set("authorization", user?.accessToken ? user?.accessToken : "")
          return headers
       }
