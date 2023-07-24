@@ -4,6 +4,8 @@ import Reviews from "./Reviews.tsx";
 import {IconPencilPlus, IconTrash} from "@tabler/icons-react";
 import {useAppSelector} from "../redux/hook.ts";
 import {Link} from "react-router-dom";
+import DeleteConfirmationModal from "./DeleteConfirmationModal.tsx";
+import {useState} from "react";
 
 const useStyles = createStyles((theme) => ({
    card: {
@@ -41,8 +43,9 @@ function BookDetails({
    publicationDate: string;
    author: string;
    reviews: ReviewsProp;
-   user:string
+   user: string
 }) {
+   const [showModal, setShowModal] = useState(false);
    const {classes} = useStyles();
    const {userInfo} = useAppSelector(state => state.user);
 
@@ -74,13 +77,13 @@ function BookDetails({
                      user === userInfo?.id &&
                       <Group mt="xs" mb="md" noWrap spacing="xs">
                           <Link to={`/edit-book/${id}`}>
-                          <ActionIcon>
-                              <Tooltip label="Edit">
-                                  <IconPencilPlus color="green" size="1.2rem"/>
-                              </Tooltip>
-                          </ActionIcon>
+                              <ActionIcon>
+                                  <Tooltip label="Edit">
+                                      <IconPencilPlus color="green" size="1.2rem"/>
+                                  </Tooltip>
+                              </ActionIcon>
                           </Link>
-                          <ActionIcon>
+                          <ActionIcon onClick={() => setShowModal(true)}>
                               <Tooltip label="Delete">
                                   <IconTrash color='red' size="1.2rem"/>
                               </Tooltip>
@@ -93,6 +96,9 @@ function BookDetails({
          <Container size='sm'>
             <Reviews reviews={reviews} id={id}/>
          </Container>
+         {
+            showModal && <DeleteConfirmationModal id={id} setShowModal={setShowModal}/>
+         }
       </Container>
    );
 }

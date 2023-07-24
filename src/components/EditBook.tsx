@@ -118,7 +118,6 @@ function EditBook({
       if(form.isDirty('publicationDate')) {
          updatedData.publicationDate = dateFormatter(values.publicationDate)
       }
-      console.log("updated: ", updatedData)
       try {
          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
          // @ts-ignore
