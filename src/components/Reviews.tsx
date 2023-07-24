@@ -4,7 +4,8 @@ import {
    Button,
    createStyles,
    Divider,
-   Group, Notification,
+   Group,
+   Notification,
    Paper,
    rem,
    Text,
@@ -15,6 +16,8 @@ import {reviewDateFormat} from "../utils/utils.ts";
 import {IReview} from "../types/globalTypes.ts";
 import {useForm} from "@mantine/form";
 import {usePostCommentMutation} from "../redux/features/books/bookApi.ts";
+import {useAppSelector} from "../redux/hook.ts";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
    comment: {
@@ -39,6 +42,9 @@ type ReviewsProp = IReview[] | undefined;
 function Reviews({reviews, id}: { reviews: ReviewsProp, id: string }) {
    const [postComment, {isError, error}] = usePostCommentMutation();
    const {classes} = useStyles();
+   const {userInfo} = useAppSelector(state => state.user)
+   const previousLocation = useNavigate();
+   const {pathname} = useLocation()
 
    const form = useForm({
       initialValues: {review: ''},
@@ -49,6 +55,9 @@ function Reviews({reviews, id}: { reviews: ReviewsProp, id: string }) {
    });
 
    const handleSubmit = async (review: { review: string }) => {
+      if (!userInfo?.id) {
+         return previousLocation(`/login?redirectTo=${pathname}`);
+      }
       try {
          const bookId: string = id;
          postComment({bookId, review});

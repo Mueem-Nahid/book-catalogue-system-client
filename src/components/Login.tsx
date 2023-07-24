@@ -2,7 +2,7 @@ import {Anchor, Button, Container, Notification, Paper, PasswordInput, Text, Tex
 import {useForm} from "@mantine/form";
 import {useLoginUserMutation} from "../redux/features/user/userApi.ts";
 import {useEffect} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../redux/hook.ts";
 import {setCredentials} from "../redux/features/user/userSlice.ts";
 import {IUser} from "../types/globalTypes.ts";
@@ -14,7 +14,8 @@ interface LoginFormInputs {
 }
 
 export function Login() {
-   const navigate = useNavigate()
+   const navigate = useNavigate();
+   const location = useLocation();
    const dispatch = useAppDispatch()
    const [loginUser, {isError, error, isSuccess}] = useLoginUserMutation()
 
@@ -41,7 +42,13 @@ export function Login() {
    }
 
    useEffect(() => {
-      isSuccess && navigate('/')
+      const searchParams = new URLSearchParams(location.search);
+      const redirectTo: string | null = searchParams.get("redirectTo");
+      if (isSuccess) {
+         redirectTo ?
+            navigate(redirectTo) :
+            navigate('/')
+      }
    }, [isSuccess, navigate])
 
    return (
