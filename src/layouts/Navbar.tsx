@@ -8,16 +8,17 @@ import {
    Drawer,
    Group,
    Header,
+   Image,
    Menu,
    rem,
    ScrollArea,
 } from '@mantine/core';
-import {MantineLogo} from '@mantine/ds';
 import {useDisclosure} from '@mantine/hooks';
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../redux/hook.ts";
 import {logOutUser} from "../redux/features/user/userSlice.ts";
 import {IconChevronDown} from "@tabler/icons-react";
+import BookSelfLogo from "../assets/book-shelf-logo.png";
 
 const useStyles = createStyles((theme) => ({
    link: {
@@ -90,10 +91,10 @@ export function Navbar() {
    }
 
    return (
-      <Box mb='60px'>
-         <Header height={60} px="md" fixed>
+      <Box mb='70px'>
+         <Header height={70} px="md" fixed>
             <Group position="apart" sx={{height: '100%'}}>
-               <MantineLogo size={30}/>
+               <Image src={BookSelfLogo} height={60} width={80} px={2}/>
 
                <Group sx={{height: '100%'}} spacing={0} className={classes.hiddenMobile}>
                   <Link to='/' className={classes.link}>

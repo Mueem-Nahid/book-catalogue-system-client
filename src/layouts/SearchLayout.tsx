@@ -1,9 +1,9 @@
 import {Button, createStyles, Group, Navbar, rem, Select, Text, TextInput,} from '@mantine/core';
 import {IconSearch,} from '@tabler/icons-react';
 import {YearPicker} from "@mantine/dates";
-import {IBookGenre} from "../types/globalTypes.ts";
 import {useForm} from "@mantine/form";
 import {Dispatch, SetStateAction} from "react";
+import {bookGenres} from "../constants/globalConstants.ts";
 
 const useStyles = createStyles((theme) => ({
    navbar: {
@@ -100,23 +100,6 @@ const useStyles = createStyles((theme) => ({
    },
 }));
 
-const bookGenres: IBookGenre[] = [
-   'Fiction',
-   'Non-Fiction',
-   'Young Adult (YA)',
-   'Children\'s',
-   'Poetry',
-   'Classic Literature',
-   'Graphic Novels/Comics',
-   'Mystery/Thriller',
-   'Science and Technology',
-   'Biography',
-   'Romance',
-   'Self-Help/Motivational',
-   'Fantasy',
-   'Science Fiction',
-   'Horror',
-];
 
 interface SearchLayoutProps {
    setSearchFields: Dispatch<SetStateAction<string>>;

@@ -1,10 +1,11 @@
-import {Button, Center, Container, createStyles, Notification, rem, Text, TextInput} from '@mantine/core';
+import {Button, Center, Container, createStyles, Notification, rem, Select, Text, TextInput} from '@mantine/core';
 import {DatePickerInput} from '@mantine/dates';
 import {useForm} from "@mantine/form";
 import {dateFormatter} from "../utils/utils.ts";
 import {useAddBookMutation} from "../redux/features/books/bookApi.ts";
 import {useAppSelector} from "../redux/hook.ts";
 import {useState} from "react";
+import {bookGenres} from "../constants/globalConstants.ts";
 
 interface AddBookFormInputs {
    title: string;
@@ -107,8 +108,8 @@ function AddBook() {
                        required/>
             <TextInput {...form.getInputProps('author')} mb={15} label="Author" placeholder="Author"
                        classNames={classes} required/>
-            <TextInput {...form.getInputProps('genre')} mb={15} label="Genre" placeholder="Genre" classNames={classes}
-                       required/>
+            <Select {...form.getInputProps('genre')} required data={bookGenres} mb={15} label="Genre"
+                    placeholder="Genre" classNames={classes} clearable/>
             <TextInput {...form.getInputProps('image')} mb={15} label="Image Url"
                        placeholder="Please provide an image url of the book"
                        classNames={classes} required/>
@@ -127,7 +128,7 @@ function AddBook() {
                isError &&
                 <Notification color="red" mt="15px" withCloseButton={false}>
                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                    {/* @ts-ignore*/}
+                   {/* @ts-ignore*/}
                     <Text color="red">{error?.data.message}</Text>
                 </Notification>
             }

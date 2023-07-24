@@ -1,6 +1,6 @@
-import {ActionIcon, Container, createStyles, Group, rem} from '@mantine/core';
+import {ActionIcon, Center, Container, createStyles, Group, Image, rem, Text} from '@mantine/core';
 import {IconBrandInstagram, IconBrandTwitter, IconBrandYoutube} from '@tabler/icons-react';
-import {MantineLogo} from '@mantine/ds';
+import BookSelfLogo from "../assets/book-shelf-logo.png";
 
 const useStyles = createStyles((theme) => ({
    footer: {
@@ -35,7 +35,10 @@ export function Footer() {
    return (
       <div className={classes.footer}>
          <Container className={classes.inner}>
-            <MantineLogo size={28}/>
+            <Image src={BookSelfLogo} height={60} width={80}/>
+            <Center>
+               <Text color='gray'>mueem51@gmail.com</Text>
+            </Center>
             <Group spacing={0} className={classes.links} position="right" noWrap>
                <ActionIcon size="lg">
                   <IconBrandTwitter size="1.05rem" stroke={1.5}/>

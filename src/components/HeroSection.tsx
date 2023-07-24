@@ -1,4 +1,5 @@
 import {Button, Container, createStyles, Overlay, rem, Text, Title} from '@mantine/core';
+import {Link} from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
    wrapper: {
@@ -118,9 +119,11 @@ export function HeroSection() {
             </Container>
 
             <div className={classes.controls}>
-               <Button className={classes.control} variant="white" size="lg">
-                  Explore all books
-               </Button>
+               <Link to='/all-books'>
+                  <Button className={classes.control} variant="white" size="lg">
+                     Explore all books
+                  </Button>
+               </Link>
             </div>
          </div>
       </div>
