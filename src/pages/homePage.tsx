@@ -3,16 +3,14 @@ import {Container} from "@mantine/core";
 import {LatestBooksSection} from "../components/LatestBooksSection.tsx";
 import {useGetBooksQuery} from "../redux/features/books/bookApi.ts";
 import {Footer} from "../layouts/Footer.tsx";
-import {IBook} from "../types/globalTypes.ts";
-
 
 function HomePage() {
-   const data = useGetBooksQuery(null)
-   const books:IBook[] = data?.data?.data
+   const {data, isLoading} = useGetBooksQuery(null)
+
    return (
       <Container px='0' fluid>
          <HeroSection/>
-         <LatestBooksSection books={books}/>
+         <LatestBooksSection books={data?.data} isLoading={isLoading}/>
          <Footer/>
       </Container>
    );

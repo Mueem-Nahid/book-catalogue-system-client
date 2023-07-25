@@ -1,4 +1,15 @@
-import {Button, Center, Container, createStyles, Notification, rem, Select, Text, TextInput} from '@mantine/core';
+import {
+   Button,
+   Center,
+   Container,
+   createStyles,
+   Loader,
+   Notification,
+   rem,
+   Select,
+   Text,
+   TextInput
+} from '@mantine/core';
 import {DatePickerInput} from '@mantine/dates';
 import {useForm} from "@mantine/form";
 import {dateFormatter} from "../utils/utils.ts";
@@ -38,7 +49,7 @@ const useStyles = createStyles((theme) => ({
 function AddBook() {
    const [successMessage, setSuccessMessage] = useState('');
    const {classes} = useStyles();
-   const [addBook, {isError, error}] = useAddBookMutation();
+   const [addBook, {isError, error, isLoading}] = useAddBookMutation();
    const {userInfo} = useAppSelector(state => state.user);
 
    const form = useForm({
@@ -123,7 +134,9 @@ function AddBook() {
                clearable={false}
                required
             />
-            <Button type='submit' mt={15}>Save</Button>
+            <Button type='submit' mt={15} disabled={isLoading}>
+               {isLoading ? <Loader size='sm'/> : 'Save'}
+            </Button>
             {
                isError &&
                 <Notification color="red" mt="15px" withCloseButton={false}>

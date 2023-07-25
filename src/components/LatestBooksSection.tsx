@@ -1,4 +1,4 @@
-import {Container, createStyles, rem, SimpleGrid, Title,} from '@mantine/core';
+import {Center, Container, createStyles, Loader, rem, SimpleGrid, Title,} from '@mantine/core';
 import {SingleCard} from "./SingleCard.tsx";
 import {IBook} from "../types/globalTypes.ts";
 
@@ -49,9 +49,10 @@ const useStyles = createStyles((theme) => ({
 
 interface LatestBooksSectionProps {
    books: IBook[];
+   isLoading: boolean;
 }
 
-export function LatestBooksSection({books}:LatestBooksSectionProps) {
+export function LatestBooksSection({books, isLoading}: LatestBooksSectionProps) {
    const {classes} = useStyles();
 
    return (
@@ -60,22 +61,28 @@ export function LatestBooksSection({books}:LatestBooksSectionProps) {
          <Title order={2} className={classes.title} ta="center" mt="sm">
             Latest Books
          </Title>
-         <SimpleGrid cols={3} spacing="xl" mt={50} breakpoints={[{maxWidth: 'md', cols: 1}]}>
-            {
-               books?.slice(0,10)?.map((book:IBook)=>(
-                  <SingleCard
-                     key={book._id}
-                     _id={book._id}
-                     image={book.image}
-                     genre={book.genre}
-                     publicationDate={book.publicationDate}
-                     title={book.title}
-                     author={book.author}
-                     isWishlisted={book?.isWishlisted}
-                  />
-               ))
-            }
-         </SimpleGrid>
+         {
+            isLoading && <Center mt={20}><Loader/></Center>
+         }
+         {
+            books &&
+             <SimpleGrid cols={3} spacing="xl" mt={50} breakpoints={[{maxWidth: 'md', cols: 1}]}>
+                {
+                   books?.slice(0, 10)?.map((book: IBook) => (
+                      <SingleCard
+                         key={book._id}
+                         _id={book._id}
+                         image={book.image}
+                         genre={book.genre}
+                         publicationDate={book.publicationDate}
+                         title={book.title}
+                         author={book.author}
+                         isWishlisted={book?.isWishlisted}
+                      />
+                   ))
+                }
+             </SimpleGrid>
+         }
       </Container>
    );
 }

@@ -9,6 +9,7 @@ import {NotFound} from "../pages/404.tsx";
 import AddBookPage from "../pages/addBookPage.tsx";
 import PrivateRoute from "./PrivateRoute.tsx";
 import EditBookPage from "../pages/editBookPage.tsx";
+import MyWishListPage from "../pages/myWishListPage.tsx";
 
 const routes = createBrowserRouter([
    {
@@ -39,6 +40,13 @@ const routes = createBrowserRouter([
             element:
                <PrivateRoute>
                   <EditBookPage/>
+               </PrivateRoute>,
+         },
+         {
+            path: '/my-wishlist',
+            element:
+               <PrivateRoute>
+                  <MyWishListPage/>
                </PrivateRoute>,
          },
          {

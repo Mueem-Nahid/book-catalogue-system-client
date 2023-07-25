@@ -128,7 +128,7 @@ export function Navbar() {
                                     </Link>
                                  </Menu.Item>
                                  <Menu.Item fw='normal'>
-                                    <Link to='' className={classes.subLink}>
+                                    <Link to='/my-wishlist' className={classes.subLink}>
                                        My wishlist
                                     </Link>
                                  </Menu.Item>

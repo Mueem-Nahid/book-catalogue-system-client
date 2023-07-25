@@ -44,7 +44,7 @@ function Reviews({reviews, id}: { reviews: ReviewsProp, id: string }) {
    const {classes} = useStyles();
    const {userInfo} = useAppSelector(state => state.user)
    const previousLocation = useNavigate();
-   const {pathname} = useLocation()
+   const {pathname} = useLocation();
 
    const form = useForm({
       initialValues: {review: ''},

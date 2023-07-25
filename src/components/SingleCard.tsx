@@ -1,9 +1,9 @@
 import {ActionIcon, Avatar, Badge, Card, createStyles, Group, Image, Loader, rem, Text, Tooltip,} from '@mantine/core';
-import {IconBookmark, IconHeartFilled, IconHeartPlus, IconShare} from '@tabler/icons-react';
-import {IBook} from "../types/globalTypes.ts";
-import {Link} from "react-router-dom";
+import {IconHeartFilled, IconHeartPlus, IconShare} from '@tabler/icons-react';
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useAddToWishlistMutation} from "../redux/features/wishlist/wishlistApi.ts";
 import {useState} from "react";
+import {useAppSelector} from "../redux/hook.ts";
 
 const useStyles = createStyles((theme) => ({
    card: {
@@ -25,6 +25,17 @@ const useStyles = createStyles((theme) => ({
    },
 }));
 
+interface ISingleCardProps {
+   _id: string;
+   image:string;
+   genre:string;
+   title:string;
+   publicationDate:string;
+   author:string;
+   isWishlisted?:boolean;
+   forWishlist?:boolean
+}
+
 export function SingleCard({
                               _id,
                               image,
@@ -32,13 +43,20 @@ export function SingleCard({
                               title,
                               publicationDate,
                               author,
-                              isWishlisted
-                           }: IBook) {
+                              isWishlisted,
+                              forWishlist
+                           }: ISingleCardProps) {
    const {classes, theme} = useStyles();
    const [addToWishlist, {isLoading}] = useAddToWishlistMutation();
-   const [wishlistState, setWishlistState] = useState(isWishlisted);
+   const [wishlistState, setWishlistState] = useState(isWishlisted || forWishlist);
+   const {userInfo} = useAppSelector(state => state.user);
+   const previousLocation = useNavigate();
+   const {pathname} = useLocation();
 
    const handleWishlist = async () => {
+      if (!userInfo?.id) {
+         return previousLocation(`/login?redirectTo=${pathname}`);
+      }
       try {
          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
          // @ts-ignore
@@ -103,9 +121,6 @@ export function SingleCard({
                      {
                         isLoading && <Loader size={"xs"}/>
                      }
-                  </ActionIcon>
-                  <ActionIcon>
-                     <IconBookmark size="1.2rem" color={theme.colors.yellow[6]} stroke={1.5}/>
                   </ActionIcon>
                   <ActionIcon>
                      <IconShare size="1.2rem" color={theme.colors.blue[6]} stroke={1.5}/>
