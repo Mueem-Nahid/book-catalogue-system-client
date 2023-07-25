@@ -62,7 +62,7 @@ export function LatestBooksSection({books}:LatestBooksSectionProps) {
          </Title>
          <SimpleGrid cols={3} spacing="xl" mt={50} breakpoints={[{maxWidth: 'md', cols: 1}]}>
             {
-               books?.slice(0,9)?.map((book:IBook)=>(
+               books?.slice(0,10)?.map((book:IBook)=>(
                   <SingleCard
                      key={book._id}
                      _id={book._id}
@@ -71,6 +71,7 @@ export function LatestBooksSection({books}:LatestBooksSectionProps) {
                      publicationDate={book.publicationDate}
                      title={book.title}
                      author={book.author}
+                     isWishlisted={book?.isWishlisted}
                   />
                ))
             }

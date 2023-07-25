@@ -7,7 +7,8 @@ const userApi = api.injectEndpoints({
             url: '/auth/login',
             method: 'POST',
             body: payload
-         })
+         }),
+         invalidatesTags: ['login'],
       }),
       signupUser: builder.mutation({
          query: (payload) => ({

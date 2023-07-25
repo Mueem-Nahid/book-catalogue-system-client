@@ -1,7 +1,9 @@
-import {ActionIcon, Avatar, Badge, Card, createStyles, Group, Image, rem, Text,} from '@mantine/core';
-import {IconBookmark, IconHeart, IconShare} from '@tabler/icons-react';
+import {ActionIcon, Avatar, Badge, Card, createStyles, Group, Image, Loader, rem, Text, Tooltip,} from '@mantine/core';
+import {IconBookmark, IconHeartFilled, IconHeartPlus, IconShare} from '@tabler/icons-react';
 import {IBook} from "../types/globalTypes.ts";
 import {Link} from "react-router-dom";
+import {useAddToWishlistMutation} from "../redux/features/wishlist/wishlistApi.ts";
+import {useState} from "react";
 
 const useStyles = createStyles((theme) => ({
    card: {
@@ -30,8 +32,26 @@ export function SingleCard({
                               title,
                               publicationDate,
                               author,
+                              isWishlisted
                            }: IBook) {
    const {classes, theme} = useStyles();
+   const [addToWishlist, {isLoading}] = useAddToWishlistMutation();
+   const [wishlistState, setWishlistState] = useState(isWishlisted);
+
+   const handleWishlist = async () => {
+      try {
+         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         // @ts-ignore
+         const {data} = await addToWishlist(_id);
+         if (data?.statusCode === 201) {
+            setWishlistState(!wishlistState);
+         } else if (!data) {
+            setWishlistState(!wishlistState);
+         }
+      } catch (e) {
+         console.log(e)
+      }
+   }
 
    return (
       <Card withBorder padding="lg" radius="md" className={classes.card}>
@@ -60,7 +80,29 @@ export function SingleCard({
                </Text>
                <Group spacing={0}>
                   <ActionIcon>
-                     <IconHeart size="1.2rem" color={theme.colors.red[6]} stroke={1.5}/>
+                     {
+                        !isLoading &&
+                        (wishlistState ?
+                              <Tooltip title='Wishlisted' label="Wishlisted">
+                                 <IconHeartFilled
+                                    onClick={handleWishlist}
+                                    style={{color: "red"}}
+                                    size="1.2rem"
+                                 />
+                              </Tooltip>
+                              :
+                              <Tooltip title='Add to wishlist' label="Add to wishlist">
+                                 <IconHeartPlus
+                                    onClick={handleWishlist}
+                                    size="1.2rem"
+                                    color={theme.colors.red[6]}
+                                 />
+                              </Tooltip>
+                        )
+                     }
+                     {
+                        isLoading && <Loader size={"xs"}/>
+                     }
                   </ActionIcon>
                   <ActionIcon>
                      <IconBookmark size="1.2rem" color={theme.colors.yellow[6]} stroke={1.5}/>

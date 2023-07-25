@@ -26,6 +26,7 @@ const bookApi = api.injectEndpoints({
 
             return `/books?${queryParams.toString()}`;
          },
+         providesTags: ['login']
       }),
       singleBook: builder.query({
          query: (id: string) => `/books/${id}`,

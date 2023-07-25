@@ -5,7 +5,8 @@ export interface IBook {
    genre: string;
    publicationDate: string;
    image: string;
-   reviews?: object
+   reviews?: object;
+   isWishlisted?: boolean
 }
 
 

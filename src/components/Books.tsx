@@ -27,6 +27,7 @@ function Books({books, isLoading, error}: BooksProps) {
                      publicationDate={book.publicationDate}
                      title={book.title}
                      author={book.author}
+                     isWishlisted={book?.isWishlisted}
                   />
                ))
             }
